@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comic Viewer</title>
+</head>
+<body>
+    <h1>Scraped Comic</h1>
+    <% if (imageUrl) { %>
+        <img src="<%= imageUrl %>" alt="Comic">
+    <% } else { %>
+        <p>No comic available.</p>
+    <% } %>
+</body>
+</html>
