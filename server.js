@@ -4,20 +4,39 @@ const fs = require('fs');
 const app = express();
 const PORT = 3000;
 
-app.set('view engine', 'ejs'); // Use EJS for templating
+app.set('view engine', 'ejs');
+app.use(express.static('public'));
 
-app.get('/', (req, res) => {
-    let imageUrl = null;
-    
+let comics = [];
+
+function loadComics() {
     try {
         const data = fs.readFileSync('comics.json', 'utf8');
-        const images = JSON.parse(data);
-        imageUrl = images.length > 0 ? images[0] : null;
+        comics = JSON.parse(data);
     } catch (error) {
         console.error('Error reading comics.json:', error);
+        comics = [];
+    }
+}
+
+// Initial load
+loadComics();
+
+app.get('/:index?', (req, res) => {
+    let index = parseInt(req.params.index, 10) || 0;
+
+    if (comics.length === 0) {
+        return res.render('index', { comic: null, prevIndex: null, nextIndex: null });
     }
 
-    res.render('index', { imageUrl });
+    if (index < 0) index = 0;
+    if (index >= comics.length) index = comics.length - 1;
+
+    const comic = comics[index] || null;
+    const prevIndex = index > 0 ? index - 1 : null;
+    const nextIndex = index < comics.length - 1 ? index + 1 : null;
+
+    res.render('index', { comic, prevIndex, nextIndex });
 });
 
 app.listen(PORT, () => {

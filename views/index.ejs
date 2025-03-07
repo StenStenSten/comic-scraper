@@ -4,13 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comic Viewer</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
+        .nav-buttons a {
+            text-decoration: none;
+            font-size: 24px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        .nav-buttons a.disabled {
+            background: #ccc;
+            pointer-events: none;
+        }
+    </style>
 </head>
 <body>
-    <h1>Scraped Comic</h1>
-    <% if (imageUrl) { %>
-        <img src="<%= imageUrl %>" alt="Comic">
+    <h1>Comic #<%= comic ? comic.comicNumber : "N/A" %></h1>
+
+    <% if (comic && comic.images && comic.images.length > 0) { %>
+        <% comic.images.forEach(image => { %>
+            <img src="<%= image %>" alt="Comic Image" style="max-width: 100%; display: block; margin: 20px auto;">
+        <% }); %>
     <% } else { %>
         <p>No comic available.</p>
     <% } %>
+
+    <div class="nav-buttons">
+        <% if (prevIndex !== null) { %>
+            <a href="/<%= prevIndex %>">⬅ Previous</a>
+        <% } else { %>
+            <a class="disabled">⬅ Previous</a>
+        <% } %>
+
+        <% if (nextIndex !== null) { %>
+            <a href="/<%= nextIndex %>">Next ➡</a>
+        <% } else { %>
+            <a class="disabled">Next ➡</a>
+        <% } %>
+    </div>
 </body>
 </html>

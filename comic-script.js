@@ -3,39 +3,52 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 const path = require('path');
 
-const COMIC_URL = 'https://questionablecontent.net/view.php?comic=5502';
 const BASE_URL = 'https://questionablecontent.net/';
+const START_COMIC = 5500; // Change as needed
+const NUM_COMICS = 10; // Number of comics to scrape
 
-async function scrapeComic() {
-    try {
-        const { data } = await axios.get(COMIC_URL, {
-            headers: { 'User-Agent': 'Mozilla/5.0' }
-        });
+async function scrapeComics(start, count) {
+    let comics = [];
 
-        const $ = cheerio.load(data);
-        const images = [];
+    for (let i = 0; i < count; i++) {
+        const comicNumber = start + i;
+        const comicUrl = `${BASE_URL}view.php?comic=${comicNumber}`;
 
-        // Select the comic image
-        const imgElement = $('#strip');
-        let imgUrl = imgElement.attr('src');
+        try {
+            const { data } = await axios.get(comicUrl, {
+                headers: { 'User-Agent': 'Mozilla/5.0' }
+            });
 
-        if (imgUrl) {
-            // Ensure absolute URL
-            if (!imgUrl.startsWith('http')) {
-                imgUrl = new URL(imgUrl, BASE_URL).href;
+            const $ = cheerio.load(data);
+
+            // Find the comic image
+            const imgElement = $('#strip');
+            let imgUrl = imgElement.attr('src');
+
+            if (imgUrl) {
+                // Ensure absolute URL
+                if (!imgUrl.startsWith('http')) {
+                    imgUrl = new URL(imgUrl, BASE_URL).href;
+                }
+
+                comics.push({
+                    comicNumber,
+                    images: [imgUrl]
+                });
+
+                console.log(`Comic #${comicNumber} found: ${imgUrl}`);
+            } else {
+                console.log(`No comic found for #${comicNumber}`);
             }
-
-            images.push(imgUrl);
-
-            console.log('Comic image found:', imgUrl);
-            fs.writeFileSync('comics.json', JSON.stringify(images, null, 2));
-            console.log('Saved to comics.json');
-        } else {
-            console.log('No comic image found.');
+        } catch (error) {
+            console.error(`Error scraping comic #${comicNumber}:`, error.message);
         }
-    } catch (error) {
-        console.error('Error scraping the comic:', error.message);
     }
+
+    // Save to comics.json
+    fs.writeFileSync('comics.json', JSON.stringify(comics, null, 2));
+    console.log('Saved to comics.json');
 }
 
-scrapeComic();
+// Run the scraper
+scrapeComics(START_COMIC, NUM_COMICS);

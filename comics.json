@@ -1,3 +1,62 @@
 [
-  "https://questionablecontent.net/comics/5502.png"
+  {
+    "comicNumber": 5500,
+    "images": [
+      "https://questionablecontent.net/comics/5500.png"
+    ]
+  },
+  {
+    "comicNumber": 5501,
+    "images": [
+      "https://questionablecontent.net/comics/5501.png"
+    ]
+  },
+  {
+    "comicNumber": 5502,
+    "images": [
+      "https://questionablecontent.net/comics/5502.png"
+    ]
+  },
+  {
+    "comicNumber": 5503,
+    "images": [
+      "https://questionablecontent.net/comics/5503.png"
+    ]
+  },
+  {
+    "comicNumber": 5504,
+    "images": [
+      "https://questionablecontent.net/comics/5504.png"
+    ]
+  },
+  {
+    "comicNumber": 5505,
+    "images": [
+      "https://questionablecontent.net/comics/5505.png"
+    ]
+  },
+  {
+    "comicNumber": 5506,
+    "images": [
+      "https://questionablecontent.net/comics/5506.png"
+    ]
+  },
+  {
+    "comicNumber": 5507,
+    "images": [
+      "https://questionablecontent.net/comics/5507.png"
+    ]
+  },
+  {
+    "comicNumber": 5508,
+    "images": [
+      "https://questionablecontent.net/comics/5508.png"
+    ]
+  },
+  {
+    "comicNumber": 5509,
+    "images": [
+      "https://questionablecontent.net/comics/5509.png"
+    ]
+  }
 ]
